@@ -1,0 +1,37 @@
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+F.Intrinsic.Control.Try
+V.Local.sError.Declare
+v.Local.sFile.Declare
+v.Local.iPid.Declare
+
+'15710
+'15770
+
+F.Intrinsic.Control.If(V.Caller.Hook,=,15710)
+	V.Passed.000020.Set("PO Dash")
+f.Intrinsic.Control.Else
+	f.Intrinsic.String.Build("{0}\GAB_4163_PU_PurchaseReview_POConf.g2u",v.Caller.GasDir,v.Local.sFile)
+	Function.Global.General.CallAsyncGAS(v.Local.sFile,"GUI",v.Local.iPid)
+F.Intrinsic.Control.EndIf
+
+
+F.Intrinsic.Control.ExitSub
+
+f.Intrinsic.Control.catch
+f.Intrinsic.Control.CallSub(catching,"sub",v.Ambient.CurrentSubroutine,"errorno",v.Ambient.ErrorNumber,"errordesc",v.Ambient.ErrorDescription)
+f.Intrinsic.Control.EndTry
+Program.Sub.Main.End
+
+Program.Sub.catching.Start
+v.Local.sError.declare(string)
+F.Intrinsic.String.Build("Project: {0}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}",'<insert program name here>,V.Ambient.NewLine,v.Args.sub,V.Args.errorno,V.args.errordesc,V.Local.sError)
+f.Intrinsic.UI.Msgbox(v.Local.sError)
+F.Intrinsic.Control.CallSub(FORM_UNLOAD)
+Program.Sub.catching.End
+
+
+
+
